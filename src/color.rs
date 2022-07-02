@@ -246,6 +246,33 @@ impl TriColor {
             TriColor::Black | TriColor::Chromatic => 0x00,
         }
     }
+
+    /// Converts to limited range of RGB values.
+    pub fn rgb(self) -> (u8, u8, u8) {
+        match self {
+            TriColor::White => (0xff, 0xff, 0xff),
+            TriColor::Black => (0x00, 0x00, 0x00),
+            TriColor::Chromatic => (0xff, 0x00, 0x00),
+        }
+    }
+}
+
+impl From<embedded_graphics_core::pixelcolor::Rgb888> for TriColor {
+    fn from(p: embedded_graphics_core::pixelcolor::Rgb888) -> TriColor {
+        use embedded_graphics_core::prelude::RgbColor;
+        let colors = [
+            TriColor::Black,
+            TriColor::White,
+            TriColor::Chromatic,
+        ];
+        // if the user has already mapped to the right color space, it will just be in the list
+        if let Some(found) = colors.iter().find(|c| c.rgb() == (p.r(), p.g(), p.b())) {
+            return *found;
+        }
+
+        // other color will return red
+        return TriColor::Chromatic
+    }
 }
 
 #[cfg(feature = "graphics")]
