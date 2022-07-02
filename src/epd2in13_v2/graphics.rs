@@ -40,7 +40,10 @@ impl DrawTarget for Display2in13 {
 
 impl OriginDimensions for Display2in13 {
     fn size(&self) -> Size {
-        Size::new(WIDTH, HEIGHT)
+        match self.rotation {
+            DisplayRotation::Rotate0 | DisplayRotation::Rotate180 => Size::new(WIDTH, HEIGHT),
+            DisplayRotation::Rotate90 | DisplayRotation::Rotate270 => Size::new(HEIGHT, WIDTH),
+        }
     }
 }
 
