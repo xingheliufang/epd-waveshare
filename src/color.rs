@@ -246,35 +246,7 @@ impl TriColor {
             TriColor::Black | TriColor::Chromatic => 0x00,
         }
     }
-
-    /// Converts to limited range of RGB values.
-    pub fn rgb(self) -> (u8, u8, u8) {
-        match self {
-            TriColor::White => (0xff, 0xff, 0xff),
-            TriColor::Black => (0x00, 0x00, 0x00),
-            TriColor::Chromatic => (0xff, 0x00, 0x00),
-        }
-    }
 }
-
-impl From<embedded_graphics_core::pixelcolor::Rgb888> for TriColor {
-    fn from(p: embedded_graphics_core::pixelcolor::Rgb888) -> TriColor {
-        use embedded_graphics_core::prelude::RgbColor;
-        let colors = [
-            TriColor::Black,
-            TriColor::White,
-            TriColor::Chromatic,
-        ];
-        // if the user has already mapped to the right color space, it will just be in the list
-        if let Some(found) = colors.iter().find(|c| c.rgb() == (p.r(), p.g(), p.b())) {
-            return *found;
-        }
-
-        // other color will return red
-        return TriColor::Chromatic
-    }
-}
-
 #[cfg(feature = "graphics")]
 impl PixelColor for TriColor {
     type Raw = ();
@@ -286,6 +258,81 @@ impl From<BinaryColor> for TriColor {
         match b {
             BinaryColor::On => TriColor::Black,
             BinaryColor::Off => TriColor::White,
+        }
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::Rgb555> for TriColor {
+    fn from(rgb: embedded_graphics_core::pixelcolor::Rgb555) -> Self {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        if rgb == RgbColor::BLACK {
+            TriColor::Black
+        } else if rgb == RgbColor::WHITE {
+            TriColor::White
+        } else {
+            TriColor::Chromatic
+        }
+    }
+}
+#[cfg(feature = "graphics")]
+impl From<TriColor> for embedded_graphics_core::pixelcolor::Rgb555 {
+    fn from(tri_color: TriColor) -> Self {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        match tri_color {
+            TriColor::Black => embedded_graphics_core::pixelcolor::Rgb555::BLACK,
+            TriColor::White => embedded_graphics_core::pixelcolor::Rgb555::WHITE,
+            TriColor::Chromatic => embedded_graphics_core::pixelcolor::Rgb555::new(255, 0, 0),
+        }
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::Rgb565> for TriColor {
+    fn from(rgb: embedded_graphics_core::pixelcolor::Rgb565) -> Self {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        if rgb == RgbColor::BLACK {
+            TriColor::Black
+        } else if rgb == RgbColor::WHITE {
+            TriColor::White
+        } else {
+            TriColor::Chromatic
+        }
+    }
+}
+#[cfg(feature = "graphics")]
+impl From<TriColor> for embedded_graphics_core::pixelcolor::Rgb565 {
+    fn from(tri_color: TriColor) -> Self {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        match tri_color {
+            TriColor::Black => embedded_graphics_core::pixelcolor::Rgb565::BLACK,
+            TriColor::White => embedded_graphics_core::pixelcolor::Rgb565::WHITE,
+            TriColor::Chromatic => embedded_graphics_core::pixelcolor::Rgb565::new(255, 0, 0),
+        }
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::Rgb666> for TriColor {
+    fn from(rgb: embedded_graphics_core::pixelcolor::Rgb666) -> Self {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        if rgb == RgbColor::BLACK {
+            TriColor::Black
+        } else if rgb == RgbColor::WHITE {
+            TriColor::White
+        } else {
+            TriColor::Chromatic
+        }
+    }
+}
+#[cfg(feature = "graphics")]
+impl From<TriColor> for embedded_graphics_core::pixelcolor::Rgb666 {
+    fn from(tri_color: TriColor) -> Self {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        match tri_color {
+            TriColor::Black => embedded_graphics_core::pixelcolor::Rgb666::BLACK,
+            TriColor::White => embedded_graphics_core::pixelcolor::Rgb666::WHITE,
+            TriColor::Chromatic => embedded_graphics_core::pixelcolor::Rgb666::new(255, 0, 0),
         }
     }
 }
