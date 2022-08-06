@@ -261,7 +261,26 @@ impl From<BinaryColor> for TriColor {
         }
     }
 }
-
+#[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::Gray8> for TriColor {
+    fn from(gray: embedded_graphics_core::pixelcolor::Gray8) -> Self {
+        match gray {
+            embedded_graphics_core::pixelcolor::GrayColor::BLACK => TriColor::Black,
+            embedded_graphics_core::pixelcolor::GrayColor::WHITE => TriColor::White,
+            _ => TriColor::Chromatic,
+        }
+    }
+}
+#[cfg(feature = "graphics")]
+impl From<TriColor> for embedded_graphics_core::pixelcolor::Gray8 {
+    fn from(tri_color: TriColor) -> Self {
+        match tri_color {
+            TriColor::Black => embedded_graphics_core::pixelcolor::Gray8::new(0),
+            TriColor::White => embedded_graphics_core::pixelcolor::Gray8::new(255),
+            TriColor::Chromatic => embedded_graphics_core::pixelcolor::Gray8::new(127),
+        }
+    }
+}
 #[cfg(feature = "graphics")]
 impl From<embedded_graphics_core::pixelcolor::Rgb555> for TriColor {
     fn from(rgb: embedded_graphics_core::pixelcolor::Rgb555) -> Self {
@@ -286,7 +305,6 @@ impl From<TriColor> for embedded_graphics_core::pixelcolor::Rgb555 {
         }
     }
 }
-
 #[cfg(feature = "graphics")]
 impl From<embedded_graphics_core::pixelcolor::Rgb565> for TriColor {
     fn from(rgb: embedded_graphics_core::pixelcolor::Rgb565) -> Self {
@@ -311,7 +329,6 @@ impl From<TriColor> for embedded_graphics_core::pixelcolor::Rgb565 {
         }
     }
 }
-
 #[cfg(feature = "graphics")]
 impl From<embedded_graphics_core::pixelcolor::Rgb666> for TriColor {
     fn from(rgb: embedded_graphics_core::pixelcolor::Rgb666) -> Self {
