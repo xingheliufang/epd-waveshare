@@ -249,7 +249,7 @@ impl TriColor {
 }
 #[cfg(feature = "graphics")]
 impl PixelColor for TriColor {
-    type Raw = ();
+    type Raw = embedded_graphics_core::pixelcolor::raw::RawU2;
 }
 
 #[cfg(feature = "graphics")]
