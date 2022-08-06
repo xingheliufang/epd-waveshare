@@ -246,7 +246,25 @@ impl TriColor {
             TriColor::Black | TriColor::Chromatic => 0x00,
         }
     }
+
+        /// Parses from u8 to Color
+        fn from_u8(val: u8) -> Self {
+            match val {
+                0 => TriColor::Black,
+                1 => TriColor::White,
+                _ => TriColor::Chromatic,
+            }
+        }
 }
+
+#[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::raw::RawU2> for TriColor {
+    fn from(b: embedded_graphics_core::pixelcolor::raw::RawU2) -> Self {
+        use embedded_graphics_core::prelude::RawData;
+        TriColor::from_u8(b.into_inner())
+    }
+}
+
 #[cfg(feature = "graphics")]
 impl PixelColor for TriColor {
     type Raw = embedded_graphics_core::pixelcolor::raw::RawU2;
