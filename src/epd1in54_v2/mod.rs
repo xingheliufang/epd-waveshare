@@ -50,7 +50,7 @@ where
     DELAY: DelayMs<u8>,
 {
     fn init(&mut self, spi: &mut SPI, delay: &mut DELAY) -> Result<(), SPI::Error> {
-        self.interface.reset(delay, 10);
+        self.interface.reset(delay, 10, 10);
         self.wait_until_idle();
         self.interface.cmd(spi, Command::SwReset)?;
         self.wait_until_idle();
@@ -274,7 +274,7 @@ where
     DELAY: DelayMs<u8>,
 {
     fn wait_until_idle(&mut self) {
-        let _ = self.interface.wait_until_idle(IS_BUSY_LOW);
+        self.interface.wait_until_idle(IS_BUSY_LOW);
     }
 
     pub(crate) fn use_full_frame(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {

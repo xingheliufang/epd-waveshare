@@ -108,7 +108,7 @@ where
     fn init(&mut self, spi: &mut SPI, delay: &mut DELAY) -> Result<(), SPI::Error> {
         // Values taken from datasheet and sample code
 
-        self.interface.reset(delay, 10);
+        self.interface.reset(delay, 10, 10);
 
         // start the booster
         self.interface
@@ -359,7 +359,7 @@ where
     }
 
     fn wait_until_idle(&mut self) {
-        let _ = self.interface.wait_until_idle(IS_BUSY_LOW);
+        self.interface.wait_until_idle(IS_BUSY_LOW);
     }
 
     fn send_resolution(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {

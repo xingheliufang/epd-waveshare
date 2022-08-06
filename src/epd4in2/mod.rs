@@ -102,7 +102,7 @@ where
 {
     fn init(&mut self, spi: &mut SPI, delay: &mut DELAY) -> Result<(), SPI::Error> {
         // reset the device
-        self.interface.reset(delay, 10);
+        self.interface.reset(delay, 10, 10);
 
         // set the power settings
         self.interface.cmd_with_data(
@@ -369,7 +369,7 @@ where
     }
 
     fn wait_until_idle(&mut self) {
-        let _ = self.interface.wait_until_idle(IS_BUSY_LOW);
+        self.interface.wait_until_idle(IS_BUSY_LOW);
     }
 
     fn send_resolution(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {

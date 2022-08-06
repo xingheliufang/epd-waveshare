@@ -52,7 +52,7 @@ where
 {
     fn init(&mut self, spi: &mut SPI, delay: &mut DELAY) -> Result<(), SPI::Error> {
         // Reset the device
-        self.interface.reset(delay, 2);
+        self.interface.reset(delay, 10, 2);
 
         self.cmd_with_data(spi, Command::PanelSetting, &[0xEF, 0x08])?;
         self.cmd_with_data(spi, Command::PowerSetting, &[0x37, 0x00, 0x23, 0x23])?;
@@ -225,10 +225,10 @@ where
     }
 
     fn wait_busy_high(&mut self) {
-        let _ = self.interface.wait_until_idle(true);
+        self.interface.wait_until_idle(true);
     }
     fn wait_busy_low(&mut self) {
-        let _ = self.interface.wait_until_idle(false);
+        self.interface.wait_until_idle(false);
     }
     fn send_resolution(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {
         let w = self.width();

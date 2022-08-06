@@ -54,7 +54,7 @@ where
 {
     fn init(&mut self, spi: &mut SPI, delay: &mut DELAY) -> Result<(), SPI::Error> {
         // Reset the device
-        self.interface.reset(delay, 10);
+        self.interface.reset(delay, 10, 10);
 
         // Start the booster
         self.cmd_with_data(spi, Command::BoosterSoftStart, &[0x17, 0x17, 0x1e, 0x17])?;
@@ -314,7 +314,7 @@ where
     }
 
     fn wait_until_idle(&mut self) {
-        let _ = self.interface.wait_until_idle(IS_BUSY_LOW);
+        self.interface.wait_until_idle(IS_BUSY_LOW);
     }
 
     fn send_resolution(&mut self, spi: &mut SPI) -> Result<(), SPI::Error> {
