@@ -267,7 +267,7 @@ impl From<embedded_graphics_core::pixelcolor::raw::RawU1> for TriColor {
 
 #[cfg(feature = "graphics")]
 impl PixelColor for TriColor {
-    type Raw = embedded_graphics_core::pixelcolor::raw::RawU8;
+    type Raw = embedded_graphics_core::pixelcolor::raw::RawU1;
 }
 
 #[cfg(feature = "graphics")]
