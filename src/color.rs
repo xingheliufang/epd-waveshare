@@ -249,17 +249,17 @@ impl TriColor {
 
         /// Parses from u8 to Color
         fn from_u8(val: u8) -> Self {
-            match val {
-                0 => TriColor::Black,
-                1 => TriColor::White,
+            match val & 0xf {
+                0x00 => TriColor::Black,
+                0x01 => TriColor::White,
                 _ => TriColor::Chromatic,
             }
         }
 }
 
 #[cfg(feature = "graphics")]
-impl From<embedded_graphics_core::pixelcolor::raw::RawU8> for TriColor {
-    fn from(b: embedded_graphics_core::pixelcolor::raw::RawU8) -> Self {
+impl From<embedded_graphics_core::pixelcolor::raw::RawU1> for TriColor {
+    fn from(b: embedded_graphics_core::pixelcolor::raw::RawU1) -> Self {
         use embedded_graphics_core::prelude::RawData;
         TriColor::from_u8(b.into_inner())
     }
