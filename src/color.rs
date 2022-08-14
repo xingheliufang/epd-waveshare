@@ -230,6 +230,18 @@ impl From<u8> for Color {
     }
 }
 
+#[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::Rgb888> for Color {
+    fn from(rgb: embedded_graphics_core::pixelcolor::Rgb888) -> Color {
+        use embedded_graphics_core::pixelcolor::RgbColor;
+        if rgb == RgbColor::BLACK {
+            Color::Black
+        } else {
+            Color::White
+        }
+    }
+}
+
 impl TriColor {
     /// Get the color encoding of the color for one bit
     pub fn get_bit_value(self) -> u8 {
