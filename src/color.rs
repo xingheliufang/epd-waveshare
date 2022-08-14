@@ -234,7 +234,7 @@ impl From<u8> for Color {
 impl From<embedded_graphics_core::pixelcolor::raw::RawU1> for Color {
     fn from(b: embedded_graphics_core::pixelcolor::raw::RawU1) -> Self {
         use embedded_graphics_core::prelude::RawData;
-        Color::from_u8(b.into_inner())
+        Color::from_u8(b.into_inner()).inverse()
     }
 }
 
