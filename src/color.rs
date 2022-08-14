@@ -231,6 +231,19 @@ impl From<u8> for Color {
 }
 
 #[cfg(feature = "graphics")]
+impl From<embedded_graphics_core::pixelcolor::raw::RawU1> for Color {
+    fn from(b: embedded_graphics_core::pixelcolor::raw::RawU1) -> Self {
+        use embedded_graphics_core::prelude::RawData;
+        Color::from_u8(b.into_inner())
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl PixelColor for Color {
+    type Raw = embedded_graphics_core::pixelcolor::raw::RawU1;
+}
+
+#[cfg(feature = "graphics")]
 impl From<embedded_graphics_core::pixelcolor::Rgb888> for Color {
     fn from(rgb: embedded_graphics_core::pixelcolor::Rgb888) -> Color {
         use embedded_graphics_core::pixelcolor::RgbColor;
@@ -259,14 +272,14 @@ impl TriColor {
         }
     }
 
-        /// Parses from u8 to Color
-        fn from_u8(val: u8) -> Self {
-            match val & 0xf {
-                0x00 => TriColor::Black,
-                0x01 => TriColor::White,
-                _ => TriColor::Chromatic,
-            }
+    /// Parses from u8 to Color
+    fn from_u8(val: u8) -> Self {
+        match val & 0xf {
+            0x00 => TriColor::Black,
+            0x01 => TriColor::White,
+            _ => TriColor::Chromatic,
         }
+    }
 }
 
 #[cfg(feature = "graphics")]
